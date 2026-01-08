@@ -134,7 +134,8 @@ def analyse_stream(vision_frame : VisionFrame, video_fps : Fps) -> bool:
 
 
 def analyse_frame(vision_frame : VisionFrame) -> bool:
-	return detect_nsfw(vision_frame)
+	return False
+	#return detect_nsfw(vision_frame)
 
 
 @lru_cache(maxsize = None)

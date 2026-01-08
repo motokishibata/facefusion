@@ -73,11 +73,11 @@ def route(args : Args) -> None:
 	if state_manager.get_item('command') == 'run':
 		import facefusion.uis.core as ui
 
-		if not common_pre_check() or not processors_pre_check():
-			return hard_exit(2)
-		for ui_layout in ui.get_ui_layouts_modules(state_manager.get_item('ui_layouts')):
-			if not ui_layout.pre_check():
-				return hard_exit(2)
+		#if not common_pre_check() or not processors_pre_check():
+		#	return hard_exit(2)
+		#for ui_layout in ui.get_ui_layouts_modules(state_manager.get_item('ui_layouts')):
+		#	if not ui_layout.pre_check():
+		#		return hard_exit(2)
 		ui.init()
 		ui.launch()
 
