@@ -73,11 +73,11 @@ def route(args : Args) -> None:
 	if state_manager.get_item('command') == 'run':
 		import facefusion.uis.core as ui
 
-		#if not common_pre_check() or not processors_pre_check():
-		#	return hard_exit(2)
-		#for ui_layout in ui.get_ui_layouts_modules(state_manager.get_item('ui_layouts')):
-		#	if not ui_layout.pre_check():
-		#		return hard_exit(2)
+		if not common_pre_check() or not processors_pre_check():
+			return hard_exit(2)
+		for ui_layout in ui.get_ui_layouts_modules(state_manager.get_item('ui_layouts')):
+			if not ui_layout.pre_check():
+				return hard_exit(2)
 		ui.init()
 		ui.launch()
 
@@ -127,10 +127,11 @@ def common_pre_check() -> bool:
 		voice_extractor
 	]
 
-	content_analyser_content = inspect.getsource(content_analyser).encode()
-	is_valid = hash_helper.create_hash(content_analyser_content) == 'b159fd9d'
+	#content_analyser_content = inspect.getsource(content_analyser).encode()
+	#is_valid = hash_helper.create_hash(content_analyser_content) == 'b159fd9d'
 
-	return all(module.pre_check() for module in common_modules) and is_valid
+	#return all(module.pre_check() for module in common_modules) and is_valid
+	return all(module.pre_check() for module in common_modules)
 
 
 def processors_pre_check() -> bool:
@@ -327,7 +328,8 @@ def process_step(job_id : str, step_index : int, step_args : Args) -> bool:
 	apply_args(step_args, state_manager.set_item)
 
 	logger.info(wording.get('processing_step').format(step_current = step_index + 1, step_total = step_total), __name__)
-	if common_pre_check() and processors_pre_check():
+	#if common_pre_check() and processors_pre_check():
+	if processors_pre_check():
 		error_code = conditional_process()
 		return error_code == 0
 	return False
